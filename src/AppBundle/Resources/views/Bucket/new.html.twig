@@ -1,15 +1,22 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Bucket creation</h1>
+    <h1>&nbsp;</h1>
 
-    {{ form(form) }}
+{{ form_start(form) }}
+    {{ form_errors(form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('bucket') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+    <div class="form-group">
+        {{ form_label(form.name) }}
+        {{ form_errors(form.name) }}
+        {{ form_widget(form.name) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_widget(form.submit) }}
+    </div>
+
+{{ form_end(form) }}
+
+
 {% endblock %}

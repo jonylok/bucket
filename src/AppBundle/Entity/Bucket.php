@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Bucket
  *
  * @ORM\Table(name="bucket")
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass="AppBundle\Entity\BucketRepository")
  */
 class Bucket
@@ -54,10 +55,10 @@ class Bucket
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="Owner", inversedBy="buckets")
-     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="buckets")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      **/
-    private $owner;
+    private $user;
 
     /**
      * Get id
@@ -70,23 +71,23 @@ class Bucket
     }
 
     /**
-     * Set owner
+     * Set user
      *
-     * @param \AppBundle\Entity\Owner $owner
+     * @param \AppBundle\Entity\User $user
      */
-    public function setOwner(\AppBundle\Entity\Owner $owner = null)
+    public function setOwner(\AppBundle\Entity\User $user = null)
     {
-        $this->owner = $owner;
+        $this->user = $user;
     }
 
     /**
-     * Get owner
+     * Get user
      *
-     * @return \AppBundle\Entity\Owner
+     * @return \AppBundle\Entity\User
      */
-    public function getOwner()
+    public function getUser()
     {
-        return $this->owner;
+        return $this->user;
     }
 
     /**
@@ -165,6 +166,26 @@ class Bucket
      */
     public function __toString()
     {
-        return $this->name;
+        return get_class();
+    }
+
+    /**
+     * Pre persist event listener
+     *
+     * @ORM\PrePersist
+     */
+    public function beforeSave()
+    {
+        $this->created = new \DateTime('now', new \DateTimeZone('UTC'));
+        $this->updated = new \DateTime('now', new \DateTimeZone('UTC'));
+    }
+
+    /**
+     * Pre update event handler
+     * @ORM\PreUpdate
+     */
+    public function doUpdate()
+    {
+        $this->updated = new \DateTime('now', new \DateTimeZone('UTC'));
     }
 }

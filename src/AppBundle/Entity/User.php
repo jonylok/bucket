@@ -1,34 +1,26 @@
 <?php
+// src/AppBundle/Entity/User.php
 
 namespace AppBundle\Entity;
 
+use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 
 /**
- * Owner
- *
- * @ORM\Table(name="owner")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\OwnerRepository")
+ * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
+ * @ORM\Table(name="fos_user")
  */
-class Owner
+class User extends BaseUser
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255)
-     */
-    private $name;
+    protected $id;
 
     /**
      * @var \DateTime
@@ -44,49 +36,47 @@ class Owner
      */
     private $updated;
 
+
     /**
      * @ORM\OneToMany(targetEntity="Bucket", mappedBy="owner")
-     **/
+     */
     private $buckets;
 
-    public function __construct() {
+    public function __construct()
+    {
+        parent::__construct();
         $this->buckets = new ArrayCollection();
     }
 
     /**
-     * Get id
+     * Add buckets
      *
-     * @return integer 
+     * @param \AppBundle\Entity\Bucket $buckets
+     * @return User
      */
-    public function getId()
+    public function addBucket(\AppBundle\Entity\Bucket $buckets)
     {
-        return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Owner
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
+        $this->buckets[] = $buckets;
         return $this;
     }
-
     /**
-     * Get name
+     * Remove buckets
      *
-     * @return string 
+     * @param \AppBundle\Entity\Bucket $buckets
      */
-    public function getName()
+    public function removeBucket(\AppBundle\Entity\Bucket $buckets)
     {
-        return $this->name;
+        $this->buckets->removeElement($buckets);
     }
-
-
+    /**
+     * Get buckets
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBuckets()
+    {
+        return $this->buckets;
+    }
 
     /**
      * Set created
@@ -142,6 +132,27 @@ class Owner
      */
     public function __toString()
     {
-        return $this->name;
+        return get_class();
+    }
+
+    /**
+     * Pre persist event listener
+     *
+     * @ORM\PrePersist
+     */
+    public function beforeSave()
+    {
+        $this->created = new \DateTime('now', new \DateTimeZone('UTC'));
+        $this->updated = new \DateTime('now', new \DateTimeZone('UTC'));
+    }
+
+    /**
+     * Pre update event handler
+     * @ORM\PreUpdate
+     */
+    public function doUpdate()
+    {
+        $this->updated = new \DateTime('now', new \DateTimeZone('UTC'));
     }
 }
+

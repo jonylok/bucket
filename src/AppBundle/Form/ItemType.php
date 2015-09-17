@@ -16,7 +16,12 @@ class ItemType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('content')
+            ->add('content', 'textarea', [
+                'attr' => [
+                    'class' => 'form-control',
+                    'rows' => '15'
+                ]
+            ])
             ->add('created')
             ->add('updated')
             ->add('bucket')
