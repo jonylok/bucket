@@ -15,15 +15,17 @@ class ItemType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', 'text', [
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
             ->add('content', 'textarea', [
                 'attr' => [
                     'class' => 'form-control',
                     'rows' => '15'
                 ]
             ])
-            ->add('created')
-            ->add('updated')
             ->add('bucket')
         ;
     }
