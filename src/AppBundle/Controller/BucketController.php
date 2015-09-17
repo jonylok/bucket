@@ -76,7 +76,13 @@ class BucketController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', [
+            'label' => 'Create Bucket',
+                'attr' => [
+                    'class' => 'btn btn-default'
+                ]
+
+        ]);
 
         return $form;
     }

@@ -1,5 +1,37 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    Homepage.
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Hi Bucket!</h1>
+            <p>Personal website to storage your notes and links using Markdown!</p>
+            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Create your buckets</h2>
+                <p>Create how many buckets you want. #linux, #java, #security, #mysql, #finantials</p>
+                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            </div>
+            <div class="col-md-4">
+                <h2>Add Items to these buckets!</h2>
+                <p>You can add the all your notes inside your buckets. Use the powerful search to find all
+                    information saved. By now we support text in Markdown and Links. </p>
+                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            </div>
+            <div class="col-md-4">
+                <h2>Heading</h2>
+                <p></p>
+                <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            </div>
+        </div>
+        <hr>
+        <footer>
+            <p>&copy; Company 2015</p>
+        </footer>
+    </div>
 {% endblock %}

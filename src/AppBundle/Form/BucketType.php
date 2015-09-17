@@ -15,11 +15,23 @@ class BucketType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('created')
-            ->add('updated')
+            ->add('name', 'text',[
+                    'label'  => 'Bucket Name',
+                    'attr'   => [
+                        'class'   => 'form-control',
+                        'placeholder' => '#linux',
+                        'type' => 'text'
+                    ]
+                ])
             ->add('owner')
         ;
+
+        /*
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+              </div>
+         */
     }
     
     /**
