@@ -90,18 +90,27 @@ class ItemController extends Controller
     /**
      * Displays a form to create a new Item entity.
      *
-     * @Route("/new", name="item_new")
+     * @Route("/new/{bucket}", name="item_new")
      * @Method("GET")
      * @Template()
      */
-    public function newAction()
+    public function newAction($bucket)
     {
         $entity = new Item();
         $form   = $this->createCreateForm($entity);
 
+        $em = $this->getDoctrine()->getManager();
+
+        $bucketEntity = $em->getRepository('AppBundle:Bucket')->find($bucket);
+
+        if (!$bucketEntity) {
+            throw $this->createNotFoundException('Unable to find the bucket.');
+        }
+
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'bucket' => $bucketEntity
         );
     }
 

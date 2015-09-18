@@ -1,26 +1,27 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Bucket list</h1>
-
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Created</th>
-                <th>Updated</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="col-md-3" id="bucket-sidebar">
+        <ul>
         {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('bucket_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.name }}</td>
-                <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>
+            <li>
+                <a href="{{ path('item_new', { 'bucket': entity.id }) }}">{{ entity.name }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+        </div>
+        <div class="col-md-9">
+            <h4>Bucket list</h4>
+
+        {% for entity in entities %}
+            <div>
+                <p><a href="{{ path('bucket_show', { 'id': entity.id }) }}">{{ entity.id }}</a></p>
+                <p>{{ entity.name }}</p>
+                <p>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif %}</p>
+                <p>{% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s') }}{% endif %}</p>
+                <p>
                 <ul>
                     <li>
                         <a href="{{ path('bucket_show', { 'id': entity.id }) }}">show</a>
@@ -29,17 +30,7 @@
                         <a href="{{ path('bucket_edit', { 'id': entity.id }) }}">edit</a>
                     </li>
                 </ul>
-                </td>
-            </tr>
+                </p>
         {% endfor %}
-        </tbody>
-    </table>
 
-        <ul>
-        <li>
-            <a href="{{ path('bucket_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
     {% endblock %}
