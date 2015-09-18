@@ -57,6 +57,11 @@ class Item
     private $updated;
 
 
+    public function __construct() {
+        $this->bucket = $this->getBucket();
+    }
+
+
     /**
      * Get id
      *

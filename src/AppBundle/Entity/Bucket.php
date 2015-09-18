@@ -75,7 +75,7 @@ class Bucket
      *
      * @param \AppBundle\Entity\User $user
      */
-    public function setOwner(\AppBundle\Entity\User $user = null)
+    public function setUser(\AppBundle\Entity\User $user = null)
     {
         $this->user = $user;
     }

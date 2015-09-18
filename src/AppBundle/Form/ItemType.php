@@ -26,7 +26,6 @@ class ItemType extends AbstractType
                     'rows' => '15'
                 ]
             ])
-            ->add('bucket')
         ;
     }
     

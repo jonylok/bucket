@@ -1,15 +1,26 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
-    <h1>Item creation</h1>
+{% block body %}
+<h1>&nbsp;</h1>
 
-    {{ form(form) }}
+{{ form_start(form) }}
+    {{ form_errors(form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('item') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+<div class="form-group">
+    {{ form_label(form.title) }}
+    {{ form_errors(form.title) }}
+    {{ form_widget(form.title) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.content) }}
+    {{ form_errors(form.content) }}
+    {{ form_widget(form.content) }}
+</div>
+
+<div class="form-group">
+    {{ form_widget(form.submit) }}
+</div>
+
+{{ form_end(form) }}
 {% endblock %}

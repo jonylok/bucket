@@ -49,6 +49,8 @@ class BucketController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $user = $this->get('security.context')->getToken()->getUser();
+            $entity->setUser($user);
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -187,6 +189,10 @@ class BucketController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('AppBundle:Bucket')->find($id);
+
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        $entity->setUser($user);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Bucket entity.');
