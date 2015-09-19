@@ -1,40 +1,44 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Bucket</h1>
+    {% include 'AppBundle::menu.html.twig' %}
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ entity.name }}</td>
-            </tr>
-            <tr>
-                <th>Created</th>
-                <td>{{ entity.created|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Updated</th>
-                <td>{{ entity.updated|date('Y-m-d H:i:s') }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="col-md-9">
+        <div class="row">
+            <div class="col-md-6">
+                <h3><span class="label label-success">{{ entity.name }}</span></h3>
+            </div>
+            <div class="col-md-6 text-right" style="padding: 15px;">
+                <a href="{{ path('item_new', { 'bucket': entity.id }) }}" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Item
+                </a>
+            </div>
+            <div class="row">
+            <hr>
+                <br /><br />
+            </div>
+        </div>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('bucket') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('bucket_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+        <div class="row">
+        {% for elementItem in allItems %}
+            <div class="thumbnail">
+                <h4>{{ elementItem.title }}
+                    <small>
+                        {{ elementItem.updated|date('d/m/Y H:i:s') }} -
+                        <a href="{{ path('bucket_edit', { 'id': entity.id }) }}">
+                            Edit
+                        </a>
+                    </small>
+                </h4>
+
+                <div class="caption">
+                    <div class="jumbotron">
+                        {{ elementItem.content|markdown }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+
 {% endblock %}

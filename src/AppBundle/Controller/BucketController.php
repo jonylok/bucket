@@ -28,11 +28,13 @@ class BucketController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $entities = $em->getRepository('AppBundle:Bucket')->findAll();
+
+        $allBuckets = $this->getAllBuckets($this->getLoggedUser());
 
         return array(
             'entities' => $entities,
+            'allBuckets' => $allBuckets,
         );
     }
     /**
@@ -49,7 +51,7 @@ class BucketController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $user = $this->get('security.context')->getToken()->getUser();
+            $user = $this->getLoggedUser();
             $entity->setUser($user);
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
@@ -124,11 +126,17 @@ class BucketController extends Controller
             throw $this->createNotFoundException('Unable to find Bucket entity.');
         }
 
+        $user = $this->getLoggedUser();
+        $allBuckets = $this->getAllBuckets($user);
+        $allItems = $this->getAllItems($id);
+
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'allBuckets' => $allBuckets,
+            'allItems' => $allItems
         );
     }
 
@@ -255,5 +263,21 @@ class BucketController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+
+    public function getAllBuckets($user) {
+        $em = $this->getDoctrine()->getManager();
+        return $em->getRepository('AppBundle:Bucket')->findAll();
+    }
+
+    public function getLoggedUser() {
+        return $this->get('security.context')->getToken()->getUser();
+    }
+
+    public function getAllItems($id){
+        $em = $this->getDoctrine()->getManager();
+        return $em->getRepository('AppBundle:Item')->findBy([
+            'bucket' => $id
+        ]);
     }
 }

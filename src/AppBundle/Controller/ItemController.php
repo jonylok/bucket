@@ -28,11 +28,14 @@ class ItemController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $entities = $em->getRepository('AppBundle:Item')->findAll();
+
+        $em = $this->getDoctrine()->getManager();
+        $buckets = $em->getRepository('AppBundle:Bucket')->findALl();
 
         return array(
             'entities' => $entities,
+            'buckets'  => $buckets,
         );
     }
     /**
@@ -100,17 +103,20 @@ class ItemController extends Controller
         $form   = $this->createCreateForm($entity);
 
         $em = $this->getDoctrine()->getManager();
-
         $bucketEntity = $em->getRepository('AppBundle:Bucket')->find($bucket);
 
         if (!$bucketEntity) {
             throw $this->createNotFoundException('Unable to find the bucket.');
         }
 
+        $user = $this->getLoggedUser();
+        $allBuckets = $this->getAllBuckets($user);
+
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
-            'bucket' => $bucketEntity
+            'bucket' => $bucketEntity,
+            'allBuckets' => $allBuckets
         );
     }
 
@@ -258,5 +264,14 @@ class ItemController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+
+    public function getAllBuckets() {
+        $em = $this->getDoctrine()->getManager();
+        return $em->getRepository('AppBundle:Bucket')->findAll();
+    }
+
+    public function getLoggedUser() {
+        return $this->get('security.context')->getToken()->getUser();
     }
 }

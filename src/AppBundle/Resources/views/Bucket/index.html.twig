@@ -1,36 +1,9 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="col-md-3" id="bucket-sidebar">
-        <ul>
-        {% for entity in entities %}
-            <li>
-                <a href="{{ path('item_new', { 'bucket': entity.id }) }}">{{ entity.name }}</a>
-            </li>
-        {% endfor %}
-        </ul>
-        </div>
-        <div class="col-md-9">
-            <h4>Bucket list</h4>
+    {% include 'AppBundle::menu.html.twig' %}
 
-        {% for entity in entities %}
-            <div>
-                <p><a href="{{ path('bucket_show', { 'id': entity.id }) }}">{{ entity.id }}</a></p>
-                <p>{{ entity.name }}</p>
-                <p>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif %}</p>
-                <p>{% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s') }}{% endif %}</p>
-                <p>
-                <ul>
-                    <li>
-                        <a href="{{ path('bucket_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('bucket_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </p>
-        {% endfor %}
-
+    <div class="col-md-9 text-center">
+        <h4>Select your bucket to see the contents!</h4>
+    </div>
     {% endblock %}

@@ -20,18 +20,6 @@
             .navbar {
                 margin-bottom: 30px;
             }
-
-            #bucket-sidebar ul li {
-                padding:10px;
-                border-bottom: 1px solid #CCC;
-                background-color: #EEE;
-                text-decoration: none;
-                list-style: outside none none;
-            }
-
-            #bucket-sidebar ul li:hover {
-                background-color: #CCC;
-            }
         </style>
     {% endblock %}
 </head>
@@ -47,17 +35,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand lyphicon" href="#">Bucket</a>
+            <a class="navbar-brand lyphicon" href="#">BUCKET</a>
             <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="/bucket/new"><span class="glyphicon glyphicon-plus-sign"></span> New Bucket</a> </li>
-                        <li><a href="/bucket"><span class="glyphicon glyphicon-sort-by-alphabet"></span> List Buckets</a> </li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="/item/new"><span class="glyphicon glyphicon-plus-sign"></span> New Item</a></li>
-                        <li><a href="/item"><span class="glyphicon glyphicon-sort-by-alphabet"></span> List Items</a> </li>
-                    </ul>
+                <li>
+                    <a href="/bucket">My Buckets</a>
                 </li>
             </ul>
         </div>
@@ -90,7 +71,7 @@
 {% block body %}
     {% block content %}
         <div class="row">
-            <div class="large-11 large-centered columns">
+            <div class="large-12 large-centered columns">
                 {% block fos_user_content %}{% endblock %}
             </div>
         </div>
