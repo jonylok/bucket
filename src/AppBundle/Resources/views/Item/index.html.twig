@@ -19,8 +19,9 @@
                         <div>
                         {% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s') }}{% endif %}
                         <strong>{{ entity.title }}</strong></div>
+                        <div style="padding:15px;">
                         {{ entity.content }}
-
+                        </div>
                         <ul>
                             <li>
                                 <a href="{{ path('item_show', { 'id': entity.id }) }}">show</a>

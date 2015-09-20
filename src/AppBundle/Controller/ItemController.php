@@ -4,9 +4,12 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Session\Session;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use AppBundle\Entity\Item;
 use AppBundle\Form\ItemType;
 
@@ -52,6 +55,16 @@ class ItemController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $session = $request->getSession();
+            $bucket = $session->get('bucket');
+            $em = $this->getDoctrine()->getManager();
+            $bucketEntity = $em->getRepository('AppBundle:Bucket')->find($bucket);
+            if (!$bucketEntity) {
+                throw $this->createNotFoundException('Unable to find Bucket entity.');
+            }
+
+            $entity->setBucket($bucketEntity);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -97,13 +110,18 @@ class ItemController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function newAction($bucket)
+    public function newAction(Request $request, $bucket)
     {
+        $session = $request->getSession();
+        $session->set('bucket', $bucket);
+
         $entity = new Item();
         $form   = $this->createCreateForm($entity);
 
         $em = $this->getDoctrine()->getManager();
         $bucketEntity = $em->getRepository('AppBundle:Bucket')->find($bucket);
+
+        // $session->get('name');
 
         if (!$bucketEntity) {
             throw $this->createNotFoundException('Unable to find the bucket.');
