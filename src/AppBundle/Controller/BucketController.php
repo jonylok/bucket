@@ -102,10 +102,12 @@ class BucketController extends Controller
     {
         $entity = new Bucket();
         $form   = $this->createCreateForm($entity);
-
+        $allBuckets = $this->getAllBuckets($this->getLoggedUser());
+        
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'allBuckets' => $allBuckets
         );
     }
 
@@ -278,6 +280,8 @@ class BucketController extends Controller
         $em = $this->getDoctrine()->getManager();
         return $em->getRepository('AppBundle:Item')->findBy([
             'bucket' => $id
-        ]);
+            ],
+            ['id' => 'DESC']
+        );
     }
 }
