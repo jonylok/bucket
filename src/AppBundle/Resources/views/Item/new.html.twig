@@ -20,7 +20,7 @@
             <div class="form-group">
                 {{ form_label(form.content) }}
                 {{ form_errors(form.content) }}
-                {{ form_widget(form.content) }}
+                {{ form_widget(form.content, {'attr': {'data-provide': 'markdown'}}) }}
             </div>
 
             <div class="form-group">
