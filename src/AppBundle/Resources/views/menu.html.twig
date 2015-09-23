@@ -1,4 +1,9 @@
 <div class="col-md-3" id="bucket-sidebar">
+    <div class="row" id="add-bucket-btn">
+ <a href="{{ path('bucket_new') }}" class="btn btn-default btn-sm">
+                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Bucket
+                 </a>        
+    </div>
 
     <div class="list-group">
         {% for elementBucket in allBuckets %}

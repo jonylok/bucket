@@ -69,7 +69,7 @@ class ItemController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('item_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('bucket_show', array('id' => $bucket)));
         }
 
         return array(
