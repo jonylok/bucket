@@ -122,7 +122,10 @@ class BucketController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Bucket')->find($id);
+        $entity = $em->getRepository('AppBundle:Bucket')->findBy([
+            'id' => $id,
+            'user' => $this->getLoggedUser()
+        ]);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Bucket entity.');
@@ -269,14 +272,31 @@ class BucketController extends Controller
 
     public function getAllBuckets($user) {
         $em = $this->getDoctrine()->getManager();
-        return $em->getRepository('AppBundle:Bucket')->findAll();
+        return $em->getRepository('AppBundle:Bucket')->findBy([
+            'user' => $user
+        ]);
     }
 
     public function getLoggedUser() {
         return $this->get('security.context')->getToken()->getUser();
     }
 
+    public function getUserFromBucket($bucketId) {
+        $em = $this->getDoctrine()->getManager();
+        $bucket = $em->getRepository('AppBundle:Bucket')->find($bucketId);
+
+        if (!$bucket) {
+            throw $this->createNotFoundException('This user does not have access to this bucket');
+        }
+
+        return $bucket->getUser();
+    }
+
     public function getAllItems($id){
+        if (!$this->getUserFromBucket($id)) {
+            throw $this->createNotFoundException('This user does not have access to this bucket');
+        }
+
         $em = $this->getDoctrine()->getManager();
         return $em->getRepository('AppBundle:Item')->findBy([
             'bucket' => $id
