@@ -8,7 +8,7 @@
     <div class="list-group">
         {% for elementBucket in allBuckets %}
         <a href="{{ path('bucket_show', { 'id': elementBucket.id }) }}" class="list-group-item">
-            <span class="badge">{{ random(15) }}</span>
+            <span class="badge">{{ elementBucket.qty_items }}</span>
             {{ elementBucket.name }}
         </a>
         {% endfor %}

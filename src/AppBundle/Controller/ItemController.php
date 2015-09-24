@@ -284,12 +284,49 @@ class ItemController extends Controller
         ;
     }
 
-    public function getAllBuckets() {
-        $em = $this->getDoctrine()->getManager();
-        return $em->getRepository('AppBundle:Bucket')->findAll();
-    }
-
     public function getLoggedUser() {
         return $this->get('security.context')->getToken()->getUser();
+    }
+
+    public function getAllBuckets($user) {
+        $em = $this->getDoctrine()->getManager();
+        $buckets = $em->getRepository('AppBundle:Bucket')->findBy([
+            'user' => $user
+        ]);
+
+        $return = [];
+        $x = 0;
+        foreach($buckets as $bucket) {
+            $return[$x]['name'] = $bucket->getName();
+            $return[$x]['id']   = $bucket->getId();
+            $return[$x]['qty_items'] = (int)(count($this->getAllItems($bucket)));
+            $x++;
+        }
+
+        return $return;
+    }
+
+    public function getAllItems($id){
+        if (!$this->getUserFromBucket($id)) {
+            throw $this->createNotFoundException('This user does not have access to this bucket');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        return $em->getRepository('AppBundle:Item')->findBy([
+            'bucket' => $id
+        ],
+            ['id' => 'DESC']
+        );
+    }
+
+    public function getUserFromBucket($bucketId) {
+        $em = $this->getDoctrine()->getManager();
+        $bucket = $em->getRepository('AppBundle:Bucket')->find($bucketId);
+
+        if (!$bucket) {
+            throw $this->createNotFoundException('This user does not have access to this bucket');
+        }
+
+        return $bucket->getUser();
     }
 }

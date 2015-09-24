@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Proxies\__CG__\AppBundle\Entity\Item;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -122,7 +123,7 @@ class BucketController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AppBundle:Bucket')->findBy([
+        $entity = $em->getRepository('AppBundle:Bucket')->findOneBy([
             'id' => $id,
             'user' => $this->getLoggedUser()
         ]);
@@ -272,9 +273,20 @@ class BucketController extends Controller
 
     public function getAllBuckets($user) {
         $em = $this->getDoctrine()->getManager();
-        return $em->getRepository('AppBundle:Bucket')->findBy([
+        $buckets = $em->getRepository('AppBundle:Bucket')->findBy([
             'user' => $user
         ]);
+
+        $return = [];
+        $x = 0;
+        foreach($buckets as $bucket) {
+            $return[$x]['name'] = $bucket->getName();
+            $return[$x]['id']   = $bucket->getId();
+            $return[$x]['qty_items'] = (int)(count($this->getAllItems($bucket)));
+            $x++;
+        }
+
+        return $return;
     }
 
     public function getLoggedUser() {
@@ -304,4 +316,5 @@ class BucketController extends Controller
             ['id' => 'DESC']
         );
     }
+
 }
