@@ -90,3 +90,25 @@ fos_user:
     firewall_name: main
     user_class: AppBundle\Entity\User
 
+fos_elastica:
+    clients:
+        default: { host: localhost, port: 9200 }
+    indexes:
+        app:
+            types:
+                bucket:
+                    mappings:
+                        name: ~
+                persistence:
+                    driver: orm
+                    model: Bucket\AppBundle\Entity\Bucket
+                    provider: ~
+                    listener: 
+                        immediate: ~
+                    finder: ~
+             #   item:
+             #       mapping:
+             #           title: ~
+             #           content: ~
+
+
