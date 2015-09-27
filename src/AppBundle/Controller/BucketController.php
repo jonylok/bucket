@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use Proxies\__CG__\AppBundle\Entity\Item;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -10,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Entity\Bucket;
 use AppBundle\Form\BucketType;
+use AppBundle\Entity\UserRepository;
 
 /**
  * Bucket controller.
@@ -31,7 +31,7 @@ class BucketController extends Controller
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('AppBundle:Bucket')->findAll();
 
-        $allBuckets = $this->getAllBuckets($this->getLoggedUser());
+        $allBuckets = $this->getAllBuckets($this->get('security.context')->getToken()->getUser());
 
         return array(
             'entities' => $entities,
@@ -52,7 +52,7 @@ class BucketController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $user = $this->getLoggedUser();
+            $user = $this->get('security.context')->getToken()->getUser();
             $entity->setUser($user);
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
@@ -103,7 +103,9 @@ class BucketController extends Controller
     {
         $entity = new Bucket();
         $form   = $this->createCreateForm($entity);
-        $allBuckets = $this->getAllBuckets($this->getLoggedUser());
+        $allBuckets = $this->getAllBuckets(
+            $this->get('security.context')->getToken()->getUser()
+        );
         
         return array(
             'entity' => $entity,
@@ -125,14 +127,14 @@ class BucketController extends Controller
 
         $entity = $em->getRepository('AppBundle:Bucket')->findOneBy([
             'id' => $id,
-            'user' => $this->getLoggedUser()
+            'user' => $this->get('security.context')->getToken()->getUser()
         ]);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Bucket entity.');
         }
 
-        $user = $this->getLoggedUser();
+        $user = $this->get('security.context')->getToken()->getUser();
         $allBuckets = $this->getAllBuckets($user);
         $allItems = $this->getAllItems($id);
 
@@ -287,10 +289,6 @@ class BucketController extends Controller
         }
 
         return $return;
-    }
-
-    public function getLoggedUser() {
-        return $this->get('security.context')->getToken()->getUser();
     }
 
     public function getUserFromBucket($bucketId) {

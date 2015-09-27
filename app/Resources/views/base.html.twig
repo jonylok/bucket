@@ -57,9 +57,11 @@
             <img src="/bundles/app/bucket.png" width="20" height="20" border="0" style="float:left;padding-right:4px;" />Buckets</a>
             <ul class="nav navbar-nav">
             </ul>
-          <form class="navbar-form navbar-left">
-            <input type="text" class="form-control" placeholder="Search...">
+          {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+          <form class="navbar-form navbar-left" action="/search" method="get">
+            <input type="text" class="form-control" placeholder="Search..." name="searchKey">
           </form>
+          {% endif %}
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}

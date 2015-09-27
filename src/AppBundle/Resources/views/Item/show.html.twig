@@ -1,44 +1,43 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Item</h1>
+    {% include 'AppBundle::menu.html.twig' %}
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ entity.title }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ entity.content }}</td>
-            </tr>
-            <tr>
-                <th>Created</th>
-                <td>{{ entity.created|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Updated</th>
-                <td>{{ entity.updated|date('Y-m-d H:i:s') }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="col-md-9">
+        <div class="row">
+            <div class="col-md-6">
+                <h3><span class="label label-success">{{ entity.name }}</span></h3>
+            </div>
+            <div class="col-md-6 text-right" style="padding: 15px;">
+                <a href="{{ path('item_new', { 'bucket': entity.id }) }}" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Item
+                </a>
+            </div>
+            <div class="row">
+                <hr>
+                <br /><br />
+            </div>
+        </div>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('item') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('item_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+        <div class="row">
+                <div class="thumbnail">
+                    <h4 style="padding-left:15px;">{{ item.title }}
+                        <small>
+                            {{ item.updated|date('d/m/Y H:i:s') }} -
+                            <a href="{{ path('item_edit', { 'id': item.id }) }}">
+                                Edit
+                            </a>
+                        </small>
+                    </h4>
+
+                    <div class="caption">
+                        <div class="jumbotron" style="padding:15px;">
+                            {{ item.content|markdown }}
+                        </div>
+                        {{ form(delete_form) }}
+                    </div>
+                </div>
+        </div>
+    </div>
+
 {% endblock %}

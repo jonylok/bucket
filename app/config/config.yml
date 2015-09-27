@@ -99,6 +99,7 @@ fos_elastica:
             types:
                 bucket:
                     mappings:
+                        user: ~
                         name: ~
                     persistence:
                         driver: orm
@@ -108,6 +109,7 @@ fos_elastica:
                             immediate: ~
                 item:
                     mappings:
+                        bucket: ~
                         title: ~
                         content: ~
                     persistence:

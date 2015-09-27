@@ -1,0 +1,43 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    {% include 'AppBundle::menu.html.twig' %}
+
+    <div class="col-md-9">
+        <h4>Search items and buckets for <strong>{{ searchKey }}</strong></h4>
+        <h5>
+            <small>Total of results for buckets: </small><strong>{{ buckets.getTotalHits }}</strong>
+            <small> in: {{ '%0.2f'|format(buckets.getTotalTime) }} ms
+            </small>
+            <br />
+            <small>Total of results for items: </small><strong>{{ items.getTotalHits }}</strong>
+            <small> in: {{ '%0.2f'|format(items.getTotalTime) }} ms
+            </small>
+        </h5>
+        <hr>
+        <div class="row">
+            {% for bucket in buckets  %}
+                <blockquote>
+                <p>
+                    <strong>{{ loop.index }}</strong>
+                    <a href="{{ path('bucket_show', { 'id': bucket.id }) }}" class="label label-success">{{ bucket.name }}</a>
+                    <footer>Type: <cite title="Source Title">Buckets</cite></footer>
+                </p>
+                </blockquote>
+                <hr>
+            {%  endfor  %}
+
+            {% for item in items  %}
+                <blockquote>
+                    <p>
+                        <strong>{{ loop.index }}</strong>
+                    <a href="{{ path('item_show', { 'id': item.id }) }}">{{ item.title }}</a>
+                    <footer>Type: <cite title="Source Title">Items</cite></footer>
+                    </p>
+                </blockquote>
+                <hr>
+            {%  endfor  %}
+
+        </div>
+    </div>
+{% endblock %}

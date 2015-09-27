@@ -127,7 +127,7 @@ class ItemController extends Controller
             throw $this->createNotFoundException('Unable to find the bucket.');
         }
 
-        $user = $this->getLoggedUser();
+        $user = $this->get('security.context')->getToken()->getUser();
         $allBuckets = $this->getAllBuckets($user);
 
         return array(
@@ -158,8 +158,9 @@ class ItemController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'item'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'allBuckets' => $this->getAllBuckets($this->get('security.context')->getToken()->getUser())
         );
     }
 
@@ -282,10 +283,6 @@ class ItemController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
-    }
-
-    public function getLoggedUser() {
-        return $this->get('security.context')->getToken()->getUser();
     }
 
     public function getAllBuckets($user) {
