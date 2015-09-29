@@ -17,11 +17,29 @@
         {% endstylesheets %}
         <style type="text/css">
             body {
-                padding-top: 50px;
+                padding-top: 60px;
                 padding-bottom: 20px;
             }
             .navbar {
                 margin-bottom: 30px;
+                min-height: 60px;
+            }
+            .navbar-brand {
+                height:60px;
+                line-height: 30px;
+            }
+            .form-control {
+                height:44px;
+            } 
+            .navbar-header: {
+                height:60px;
+            }
+            .navbar-collapse {
+                min-height: 60px;
+            }
+        
+            .navbar-nav > li > a {
+                line-height: 30px;
             }
 
             .jumbotron p {
@@ -38,6 +56,11 @@
             #main-msg {
                 padding-top: 100px;
             }
+            .navbar-inverse {
+                background-image: linear-gradient(to bottom, #000 0px, #000 100%);
+                background-color: #000;
+            }
+
         </style>
     {% endblock %}
 </head>
@@ -54,7 +77,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand lyphicon" href="/bucket">
-            <img src="/bundles/app/bucket.png" width="20" height="20" border="0" style="float:left;padding-right:4px;" />Buckets</a>
+            <img src="/bundles/app/bucket.png" width="30" height="30" border="0" style="float:left;padding-right:4px;" />Buckets</a>
             <ul class="nav navbar-nav">
             </ul>
           {% if is_granted('IS_AUTHENTICATED_FULLY') %}
