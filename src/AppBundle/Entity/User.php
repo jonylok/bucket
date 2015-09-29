@@ -42,6 +42,11 @@ class User extends BaseUser
      */
     private $buckets;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Item", mappedBy="owner")
+     */
+    private $items;
+
     public function __construct()
     {
         parent::__construct();
@@ -77,6 +82,37 @@ class User extends BaseUser
     {
         return $this->buckets;
     }
+
+    /**
+     * Add items
+     *
+     * @param \AppBundle\Entity\Item $items
+     * @return User
+     */
+    public function addItem(\AppBundle\Entity\Item $items)
+    {
+        $this->items[] = $items;
+        return $this;
+    }
+    /**
+     * Remove items
+     *
+     * @param \AppBundle\Entity\Item $items
+     */
+    public function removeItem(\AppBundle\Entity\Item $items)
+    {
+        $this->items->removeElement($items);
+    }
+    /**
+     * Get items
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
+
 
     /**
      * Set created

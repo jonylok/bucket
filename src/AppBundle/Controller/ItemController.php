@@ -63,6 +63,8 @@ class ItemController extends Controller
                 throw $this->createNotFoundException('Unable to find Bucket entity.');
             }
 
+            $user = $this->get('security.context')->getToken()->getUser();
+            $entity->setUser($user);
             $entity->setBucket($bucketEntity);
 
             $em = $this->getDoctrine()->getManager();

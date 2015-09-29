@@ -56,6 +56,12 @@ class Item
      */
     private $updated;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="items")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     **/
+    private $user;
+
 
     public function __construct() {
         $this->bucket = $this->getBucket();
@@ -116,6 +122,26 @@ class Item
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 
     /**

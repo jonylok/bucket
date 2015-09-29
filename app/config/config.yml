@@ -97,25 +97,29 @@ fos_elastica:
         search:
             client: default
             types:
-                bucket:
-                    mappings:
-                        user: ~
-                        name: ~
-                    persistence:
-                        driver: orm
-                        model: AppBundle\Entity\Bucket
-                        provider: ~
-                        listener: 
-                            immediate: ~
                 item:
                     mappings:
-                        bucket: ~
                         title: ~
                         content: ~
+                        user:
+                            type: "nested"
+                            properties:
+                                id: ~
                     persistence:
                         driver: orm
                         model: AppBundle\Entity\Item
                         provider: ~
-                        listener: 
-                            immediate: ~
+                        listener: ~
+                bucket:
+                    mappings:
+                        name: ~
+                        user:
+                            type: "nested"
+                            properties:
+                                id: ~
+                    persistence:
+                        driver: orm
+                        model: AppBundle\Entity\Bucket
+                        provider: ~
+                        listener: ~
 

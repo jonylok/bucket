@@ -21,20 +21,52 @@ class SearchController extends Controller
      */
     public function searchAction(Request $request)
     {
+        $user = $this->get('security.context')->getToken()->getUser();
         $searchKey = $request->query->get('searchKey');
+
         // $user = $this->get('security.context')->getToken()->getUser();
 
         $finderBucket = $this->container->get('fos_elastica.index.search.bucket');
         $finderItem = $this->container->get('fos_elastica.index.search.item');
 
-        $buckets = $finderBucket->search($searchKey);
-        $items = $finderItem->search($searchKey);
+        $boolQuery1 = new \Elastica\Query\BoolQuery();
+        $terms1 = new \Elastica\Query\Terms();
+        $terms1->setTerms('name', array($searchKey));
+        $boolQuery1->addShould($terms1);
+
+        $queryId1 = new \Elastica\Query\Terms();
+        $queryId1->setTerms('id', [$user->getId()]);
+
+        $nestedQuery1 = new \Elastica\Query\Nested();
+        $nestedQuery1->setPath('user');
+        $nestedQuery1->setQuery($queryId1);
+        $boolQuery1->addMust($nestedQuery1);
+
+
+        $buckets = $finderBucket->search($boolQuery1);
+
+
+        $boolQuery2 = new \Elastica\Query\BoolQuery();
+        $terms2 = new \Elastica\Query\Terms();
+        $terms2->setTerms('title', array($searchKey));
+        $terms2->setTerms('content', array($searchKey));
+        $boolQuery2->addShould($terms2);
+
+        $queryId2 = new \Elastica\Query\Terms();
+        $queryId2->setTerms('id', [$user->getId()]);
+
+        $nestedQuery2 = new \Elastica\Query\Nested();
+        $nestedQuery2->setPath('user');
+        $nestedQuery2->setQuery($queryId2);
+        $boolQuery2->addMust($nestedQuery2);
+
+        $items = $finderItem->search($boolQuery2);
 
         return [
             'searchKey' => $searchKey,
             'buckets' => $buckets,
             'items' => $items,
-            'allBuckets' => $this->getAllBuckets($this->get('security.context')->getToken()->getUser())
+            'allBuckets' => $this->getAllBuckets($user)
         ];
     }
 
