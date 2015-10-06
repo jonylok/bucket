@@ -47,10 +47,13 @@ class SearchController extends Controller
 
 
         $boolQuery2 = new \Elastica\Query\BoolQuery();
-        $terms2 = new \Elastica\Query\Terms();
-        $terms2->setTerms('title', array($searchKey));
-        $terms2->setTerms('content', array($searchKey));
-        $boolQuery2->addMust($terms2);
+        $termsTitle = new \Elastica\Query\Terms();
+        $termsContent = new \Elastica\Query\Terms();
+        $termsTitle->setTerms('title', array($searchKey));
+        $termsContent->setTerms('content', array($searchKey));
+
+        $boolQuery2->addMust($termsTitle);
+        $boolQuery2->addMust($termsContent);
 
         $queryId2 = new \Elastica\Query\Terms();
         $queryId2->setTerms('id', [$user->getId()]);
