@@ -150,17 +150,24 @@ class ItemController extends Controller
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('AppBundle:Item')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Item entity.');
         }
 
+        $em2 = $this->getDoctrine()->getManager();
+        $bucket = $em2->getRepository('AppBundle:Bucket')->find($entity->getBucket());
+
+        if (!$bucket) {
+            throw $this->createNotFoundException('Unable to find Bucket entity.');
+        }
+
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'item'      => $entity,
+            'bucket'    => $bucket,
             'delete_form' => $deleteForm->createView(),
             'allBuckets' => $this->getAllBuckets($this->get('security.context')->getToken()->getUser())
         );
@@ -183,11 +190,19 @@ class ItemController extends Controller
             throw $this->createNotFoundException('Unable to find Item entity.');
         }
 
+        $em2 = $this->getDoctrine()->getManager();
+        $bucket = $em2->getRepository('AppBundle:Bucket')->find($entity->getBucket());
+
+        if (!$bucket) {
+            throw $this->createNotFoundException('Unable to find Bucket entity.');
+        }
+
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
+            'bucket'      => $bucket,
             'allBuckets' => $this->getAllBuckets(
                 $this->get('security.context')->getToken()->getUser()
             ),
@@ -210,7 +225,12 @@ class ItemController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', [
+            'label' => 'Update Item',
+            'attr' => [
+                'class' => 'btn btn-success'
+            ]
+        ]);
 
         return $form;
     }
@@ -241,11 +261,7 @@ class ItemController extends Controller
             return $this->redirect($this->generateUrl('item_edit', array('id' => $id)));
         }
 
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
+        return $this->redirect($this->generateUrl('item_show', array('id' => $id)));
     }
     /**
      * Deletes a Item entity.
@@ -270,7 +286,10 @@ class ItemController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('item'));
+        $session = $request->getSession();
+        $bucket = $session->get('bucket');
+
+        return $this->redirect($this->generateUrl('bucket_show', ['id' => $bucket]));
     }
 
     /**
@@ -285,7 +304,12 @@ class ItemController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('item_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', [
+                'label' => 'Delete Item',
+                'attr' => [
+                    'class' => 'btn btn-danger'
+                ]
+            ])
             ->getForm()
         ;
     }
