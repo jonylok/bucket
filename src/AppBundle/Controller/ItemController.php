@@ -40,7 +40,7 @@ class ItemController extends Controller
             'entities' => $entities,
             'buckets'  => $buckets,
         );
-    }
+ )   }
     /**
      * Creates a new Item entity.
      *
@@ -258,7 +258,7 @@ class ItemController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('item_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('item_show', array('id' => $id)));
         }
 
         return $this->redirect($this->generateUrl('item_show', array('id' => $id)));
