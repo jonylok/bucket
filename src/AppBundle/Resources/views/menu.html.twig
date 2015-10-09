@@ -5,6 +5,8 @@
                  </a>        
     </div>
 
+
+<div class="my-sidebar">
     <div class="list-group">
         {% for elementBucket in allBuckets %}
         <a href="{{ path('bucket_show', { 'id': elementBucket.id }) }}" class="list-group-item">
@@ -14,4 +16,5 @@
         {% endfor %}
     </div>
 
+</div>
 </div>
