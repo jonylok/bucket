@@ -188,6 +188,9 @@ class ItemController extends Controller
 
         return array(
             'entity'      => $entity,
+            'allBuckets' => $this->getAllBuckets(
+                $this->get('security.context')->getToken()->getUser()
+            ),
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
