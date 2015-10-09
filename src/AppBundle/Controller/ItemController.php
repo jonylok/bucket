@@ -40,7 +40,7 @@ class ItemController extends Controller
             'entities' => $entities,
             'buckets'  => $buckets,
         );
- )   }
+    }
     /**
      * Creates a new Item entity.
      *
