@@ -24,9 +24,9 @@
             <div class="thumbnail">
                 <h4 style="padding-left:15px;">{{ elementItem.title }}
                     <small>
-                        {{ elementItem.updated|date('d/m/Y H:i:s') }} -
-                        <a href="{{ path('item_edit', { 'id': elementItem.id }) }}">
-                            Edit
+                        {{ elementItem.updated|date('d/m/Y H:i:s') }} 
+                        <a href="{{ path('item_edit', { 'id': elementItem.id }) }}" class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
                         </a>
                     </small>
                 </h4>

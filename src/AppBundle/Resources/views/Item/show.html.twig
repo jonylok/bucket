@@ -6,7 +6,13 @@
     <div class="col-md-9">
         <div class="row">
             <div class="col-md-6">
-                <h3><span class="label label-success">{{ bucket.name }}</span></h3>
+                <h3>
+                    <span class="label label-success">
+                        <a href="{{ path('bucket_show', { 'id': bucket.id }) }}" style="color:#fff;">        
+                            {{ bucket.name }}
+                        </a>
+                    </span>
+                </h3>
             </div>
             <div class="col-md-6 text-right" style="padding: 15px;">
                 <a href="{{ path('item_new', { 'bucket': bucket.id }) }}" class="btn btn-default btn-sm">
@@ -23,9 +29,9 @@
                 <div class="thumbnail">
                     <h4 style="padding-left:15px;">{{ item.title }}
                         <small>
-                            {{ item.updated|date('d/m/Y H:i:s') }} -
-                            <a href="{{ path('item_edit', { 'id': item.id }) }}">
-                                Edit
+                            {{ item.updated|date('d/m/Y H:i:s') }} 
+                            <a href="{{ path('item_edit', { 'id': item.id }) }}" class="btn btn-default btn-xs">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
                             </a>
                         </small>
                     </h4>
