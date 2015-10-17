@@ -22,7 +22,7 @@ class SearchController extends Controller
     public function searchAction(Request $request)
     {
         $user = $this->get('security.context')->getToken()->getUser();
-        $searchKey = $request->query->get('searchKey');
+        $searchKey = strtolower($request->query->get('searchKey'));
 
         // $user = $this->get('security.context')->getToken()->getUser();
 
@@ -50,10 +50,10 @@ class SearchController extends Controller
         $termsTitle = new \Elastica\Query\Terms();
         $termsContent = new \Elastica\Query\Terms();
         $termsTitle->setTerms('title', array($searchKey));
-        $termsContent->setTerms('content', array($searchKey));
-
         $boolQuery2->addMust($termsTitle);
-        $boolQuery2->addMust($termsContent);
+        
+        $termsContent->setTerms('content', array($searchKey));
+        $boolQuery2->addShould($termsContent);
 
         $queryId2 = new \Elastica\Query\Terms();
         $queryId2->setTerms('id', [$user->getId()]);
