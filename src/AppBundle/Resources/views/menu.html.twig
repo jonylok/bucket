@@ -1,20 +1,19 @@
-<div class="col-md-3" id="bucket-sidebar">
-    <div class="row" id="add-bucket-btn">
- <a href="{{ path('bucket_new') }}" class="btn btn-default btn-sm">
-                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Bucket
-                 </a>        
-    </div>
+<div class="col-sm-3 col-md-2 sidebar">
+    <ul class="nav nav-sidebar">
+        <li class="active">
+            <a href="{{ path('bucket_new') }}">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Bucket
+            </a>
+        </li>
 
-
-<div class="my-sidebar">
-    <div class="list-group">
         {% for elementBucket in allBuckets %}
-        <a href="{{ path('bucket_show', { 'id': elementBucket.id }) }}" class="list-group-item">
-            <span class="badge">{{ elementBucket.qty_items }}</span>
-            {{ elementBucket.name }}
-        </a>
+        <li>
+            <a href="{{ path('bucket_show', { 'id': elementBucket.id }) }}">
+                <span class="badge">{{ elementBucket.qty_items }}</span>
+                {{ elementBucket.name }}
+            </a>
+        </li>
         {% endfor %}
-    </div>
+    </ul>
 
-</div>
 </div>

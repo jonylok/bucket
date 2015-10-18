@@ -1,40 +1,28 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <div class="container-fluid">
-        <div class="row-fluid">
-            <div class="col-md-3" id="bucket-sidebar">
+    {% include 'AppBundle::menu.html.twig' %}
+
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        {% for entity in entities %}
+            <div>
+                <div>
+                {% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s') }}{% endif %}
+                <strong>{{ entity.title }}</strong></div>
+                <div style="padding:15px;">
+                {{ entity.content }}
+                </div>
                 <ul>
-                    {% for bucket in buckets %}
-                        <li>
-                            <a href="{{ path('item_new', { 'bucket': bucket.id }) }}">{{ bucket.name }}</a>
-                        </li>
-                    {% endfor %}
+                    <li>
+                        <a href="{{ path('item_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('item_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
                 </ul>
+
             </div>
-
-            <div class="col-md-9">
-                {% for entity in entities %}
-                    <div>
-                        <div>
-                        {% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s') }}{% endif %}
-                        <strong>{{ entity.title }}</strong></div>
-                        <div style="padding:15px;">
-                        {{ entity.content }}
-                        </div>
-                        <ul>
-                            <li>
-                                <a href="{{ path('item_show', { 'id': entity.id }) }}">show</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('item_edit', { 'id': entity.id }) }}">edit</a>
-                            </li>
-                        </ul>
-
-                    </div>
-                {% endfor %}
-            </div>
-
-        </div>
+        {% endfor %}
     </div>
+
 {% endblock %}

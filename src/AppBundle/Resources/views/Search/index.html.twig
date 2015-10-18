@@ -3,7 +3,7 @@
 {% block body -%}
     {% include 'AppBundle::menu.html.twig' %}
 
-    <div class="col-md-9">
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <h4>Search items and buckets for <strong>{{ searchKey }}</strong></h4>
         <h5>
             <small>Total of results for buckets: </small><strong>{{ buckets.getTotalHits }}</strong>

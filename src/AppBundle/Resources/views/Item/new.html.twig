@@ -2,28 +2,29 @@
 
 {% block body %}
     {% include 'AppBundle::menu.html.twig' %}
-        <div class="col-md-9">
-            <h3><span class="label label-success">{{ bucket.name }}</span></h3>
 
-            {{ form_start(form) }}
-            {{ form_errors(form) }}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h3><span class="label label-success">{{ bucket.name }}</span></h3>
 
-            <div class="form-group">
-                {{ form_label(form.title) }}
-                {{ form_errors(form.title) }}
-                {{ form_widget(form.title) }}
-            </div>
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
 
-            <div class="form-group">
-                {{ form_label(form.content) }}
-                {{ form_errors(form.content) }}
-                {{ form_widget(form.content, {'attr': {'data-provide': 'markdown'}}) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_widget(form.submit) }}
-            </div>
-
-            {{ form_end(form) }}
+        <div class="form-group">
+            {{ form_label(form.title) }}
+            {{ form_errors(form.title) }}
+            {{ form_widget(form.title) }}
         </div>
+
+        <div class="form-group">
+            {{ form_label(form.content) }}
+            {{ form_errors(form.content) }}
+            {{ form_widget(form.content, {'attr': {'data-provide': 'markdown'}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_widget(form.submit) }}
+        </div>
+
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
