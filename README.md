@@ -5,6 +5,8 @@ This project makes possible you to save your personal notes and search by any of
 
 I created this project for my personal use and to learn how elasticsearch can interact with symfony2 and php.
 
+![Screenshot Bucket](https://raw.githubusercontent.com/rodolfobandeira/bucket/master/screenshot.png)
+
 ---
 
 ####Requirements:
