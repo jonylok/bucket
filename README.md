@@ -5,6 +5,11 @@ This project makes possible you to save your personal notes and search by any of
 
 ---
 
+####Requirements:
+- ElasticSearch
+- PHP >= 5.4
+- Linux Server
+
 ####Setup:
 
 - `git clone https://github.com/rodolfobandeira/bucket.git`
