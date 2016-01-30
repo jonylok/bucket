@@ -25,3 +25,9 @@ I created this project for my personal use and to learn how elasticsearch can in
 - `php app/console server:run` (Running symfony server, but you can configure your own nginx or apache)
 - `http://127.0.0.1:8000`
 
+---
+
+####Entity Relationship Diagram:
+
+![ER Diagram](er-diagram.png)
+
