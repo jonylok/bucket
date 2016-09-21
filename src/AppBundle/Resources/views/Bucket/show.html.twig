@@ -7,6 +7,9 @@
         <div class="row">
             <div class="col-md-6">
                 <h3><span class="label label-success">{{ entity.name }}</span></h3>
+                <a href="{{ path('bucket_delete', { 'id': entity.id }) }}" class="btn btn-danger btn-xs">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Delete Bucket
+                </a>
             </div>
             <div class="col-md-6 text-right" style="padding: 15px;">
                 <a href="{{ path('item_new', { 'bucket': entity.id }) }}" class="btn btn-default btn-sm">
