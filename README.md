@@ -9,12 +9,12 @@ I created this project for my personal use and to learn how elasticsearch can in
 
 ---
 
-####Requirements:
+#### Requirements:
 - ElasticSearch
 - PHP >= 5.4
 - Linux Server
 
-####Setup:
+#### Setup:
 
 - `git clone https://github.com/rodolfobandeira/bucket.git`
 - `cd bucket`
@@ -27,7 +27,7 @@ I created this project for my personal use and to learn how elasticsearch can in
 
 ---
 
-####Entity Relationship Diagram:
+#### Entity Relationship Diagram:
 
 ![ER Diagram](er-diagram.png)
 
